@@ -1,0 +1,9 @@
+- name: Connect to database and create user
+  postgresql_user:
+    db: "{{db_name}}"
+    name: "{{db_user_name}}"
+    password: "{{db_user_password}}"
+    expires: infinity
+    role_attr_flags: CREATEDB,NOSUPERUSER
+
+

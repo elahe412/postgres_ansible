@@ -1,0 +1,12 @@
+- name: Create a new database 
+  become: true
+  postgresql_db:
+    name: "{{db_name}}"
+    encoding: UTF-8
+    template: template0    
+
+- name: Dump an existing database to a file
+  postgresql_db:
+    name: "{{db_name}}"
+    state: dump
+    target: "{{db_backup_path}}"     

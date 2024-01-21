@@ -1,0 +1,48 @@
+  
+- name: update pip
+  become: true
+  apt:
+    upgrade: yes
+
+- name: Install postgresql
+  become: true
+  apt:
+    pkg: 
+    - python3-pip
+    - postgresql 
+    - postgresql-contrib
+    - libpq-dev
+    - python3-dev
+    state: present
+
+- name: Make sure psycopg2 is installed
+  become: true
+  pip:
+    name: psycopg2
+    state: present
+
+- name: Get postgres version 
+  become: true
+  shell: sudo -u postgres psql --version | grep -oP '\d+' | awk 'NR==1'
+  register: postgres_version
+- debug: msg={{postgres_version.stdout}}
+
+
+- name: Configure PostgreSQL
+  become: true
+  lineinfile: 
+    dest: "/etc/postgresql/{{ postgres_version.stdout }}/main/postgresql.conf"
+    regexp: "listen_addresses ="
+    line: "listen_addresses = '*'"
+    state: present
+
+- name: Configure PostgreSQL. Set hosts in pg_hba.conf
+  become: true
+  template: src=pg_hba.conf.j2 dest=/etc/postgresql/{{ postgres_version.stdout }}/main/pg_hba.conf
+    backup=yes
+
+- name: Restart postgres service
+  become: true 
+  service:
+    name: postgresql
+    state: restarted

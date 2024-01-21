@@ -1,0 +1,6 @@
+- name: GRANT ALL PRIVILEGES ON DATABASE
+  postgresql_privs:
+    db: "{{db_name}}"
+    privs: ALL
+    type: database
+    role: "{{db_user_name}}"

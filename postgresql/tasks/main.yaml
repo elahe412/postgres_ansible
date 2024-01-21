@@ -1,0 +1,13 @@
+- name: Install postgres service
+  include: install_postgres.yaml
+
+- name: Create or delete database
+  include: db.yaml
+
+
+- name: Add or remove user
+  include: user.yaml
+
+  
+- name: Grant or revoke privileges
+  include: privileges.yaml
