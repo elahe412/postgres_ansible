@@ -4,5 +4,4 @@
     - database
   become: yes
   roles:
-    - pre_install
     - postgresql
