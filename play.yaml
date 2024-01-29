@@ -4,4 +4,5 @@
     - database
   become: yes
   roles:
-    - postgresql
+    - { role: pre_install, tags: pre_install }
+    - { role: postgresql, tags: postgresql }
