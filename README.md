@@ -8,17 +8,6 @@ Installs and configures PostgreSQL server
 * Create postgres user
 * Grant privileges on a database to a user
 
-
-#### Note: if you need set dns for installing postgres you can add pre-install role in play.yaml like this:
-```
-- name: install postgresql service
-  hosts:
-    - database
-  become: yes
-  roles:
-    - pre_install
-    - postgresql
-```
 ### Add SSH key
 run these commands to add ssh key :
 ```
@@ -28,9 +17,14 @@ ssh-copy-id -i ~/.ssh/id_rsa.pub user@[target_server]
 
 ### Run the Playbook:
 ```
-ansible-playbook -i [inventory file] play.yml
+ansible-playbook -i [inventory file] play.yml -t postgresql
 ```
-
+ if you need set dns for installing postgres you can use pre_install tag
+ 
+```
+ansible-playbook -i [inventory file] play.yml -t pre_install
+```
+ 
 ### Access to postgres:
 you can check instalation on target server by running these commands:
 ```
